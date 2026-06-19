@@ -38,13 +38,15 @@ WITH user_location AS (
     ? AS user_lat,
     ? AS user_lng
 )
-
 SELECT * FROM (
     SELECT
       p.id,
       p.title,
-      p.address AS location,
-      
+      (
+      SELECT t.name
+      FROM township t
+      WHERE t.id = p.township_id
+      ) AS location,
       (
         SELECT m.image_url
         FROM media m
@@ -79,7 +81,11 @@ SELECT * FROM (
     SELECT
       c.id,
       c.title,
-      c.address AS location,
+      (
+      SELECT t.name
+      FROM township t
+      WHERE t.id = c.township_id
+      ) AS location,
 
       (
         SELECT m.image_url
@@ -174,7 +180,11 @@ const getNearbyByType = async (req, res, next) => {
           p.id,
           p.title,
           p.price,
-          p.address AS location,
+          (
+          SELECT t.name
+          FROM township t
+          WHERE t.id = p.township_id
+          ) AS location,
           p.average_rating AS rating,
           p.area_sqft,
           p.bedroom_count,
@@ -216,7 +226,11 @@ const getNearbyByType = async (req, res, next) => {
           c.id,
           c.title,
           c.price,
-          c.address AS location,
+          (
+          SELECT t.name
+          FROM township t
+          WHERE t.id = c.township_id
+          ) AS location,
           c.average_rating AS rating,
           c.duration,
 

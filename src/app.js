@@ -31,7 +31,9 @@ app.use(
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
-
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
 app.use("/api/nearby", nearbyRoutes);
 
 app.use(errorMiddleware);
