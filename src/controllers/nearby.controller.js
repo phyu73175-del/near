@@ -42,6 +42,8 @@ SELECT * FROM (
     SELECT
       p.id,
       p.title,
+      p.latitude,
+      p.longitude,
       (
       SELECT t.name
       FROM township t
@@ -81,6 +83,8 @@ SELECT * FROM (
     SELECT
       c.id,
       c.title,
+      c.latitude,
+      c.longitude,
       (
       SELECT t.name
       FROM township t
@@ -180,6 +184,8 @@ const getNearbyByType = async (req, res, next) => {
           p.id,
           p.title,
           p.price,
+          p.latitude,
+          p.longitude,
           (
           SELECT t.name
           FROM township t
@@ -226,6 +232,8 @@ const getNearbyByType = async (req, res, next) => {
           c.id,
           c.title,
           c.price,
+          c.latitude,
+          c.longitude,
           (
           SELECT t.name
           FROM township t
