@@ -121,7 +121,6 @@ SELECT * FROM (
     WHERE c.status = 'APPROVED'
 
 ) AS nearby_items
-WHERE distance <= 5
 ORDER BY rating DESC
 LIMIT 5
 `;
@@ -217,7 +216,6 @@ const getNearbyByType = async (req, res, next) => {
         FROM properties p
         CROSS JOIN user_location
         WHERE p.post_status = 'APPROVED'
-        HAVING distance <= 5
         ORDER BY distance ASC
         LIMIT ? OFFSET ?
       `;
@@ -265,7 +263,6 @@ const getNearbyByType = async (req, res, next) => {
         FROM course c
         CROSS JOIN user_location
         WHERE c.status = 'APPROVED'
-        HAVING distance <= 5
         ORDER BY distance ASC
         LIMIT ? OFFSET ?
       `;
