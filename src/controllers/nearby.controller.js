@@ -57,7 +57,8 @@ SELECT * FROM (
         LIMIT 1
       ) AS image,
 
-      p.average_rating AS rating,
+      p.average_rating AS average_rating,
+      p.review_count AS review_count,
       'property' AS type,
 
       ROUND(
@@ -99,7 +100,8 @@ SELECT * FROM (
         LIMIT 1
       ) AS image,
 
-      c.average_rating AS rating,
+      c.average_rating AS average_rating,
+      c.review_count  AS review_count,
       'course' AS type,
 
       ROUND(
@@ -121,7 +123,7 @@ SELECT * FROM (
     WHERE c.status = 'APPROVED'
 
 ) AS nearby_items
-ORDER BY rating DESC
+ORDER BY distance ASC ,average_rating DESC ,review_count DESC
 LIMIT 5
 `;
 
@@ -190,7 +192,8 @@ const getNearbyByType = async (req, res, next) => {
           FROM township t
           WHERE t.id = p.township_id
           ) AS location,
-          p.average_rating AS rating,
+          p.average_rating AS average_rating,
+          p.review_count AS review_count,
           p.area_sqft,
           p.bedroom_count,
 
@@ -216,7 +219,7 @@ const getNearbyByType = async (req, res, next) => {
         FROM properties p
         CROSS JOIN user_location
         WHERE p.post_status = 'APPROVED'
-        ORDER BY distance ASC
+        ORDER BY distance ASC ,average_rating DESC ,review_count DESC
         LIMIT ? OFFSET ?
       `;
     }
@@ -238,7 +241,8 @@ const getNearbyByType = async (req, res, next) => {
           FROM township t
           WHERE t.id = c.township_id
           ) AS location,
-          c.average_rating AS rating,
+          c.average_rating AS average_rating,\
+          c.review_count AS review_count,
           c.duration,
 
           (
@@ -263,7 +267,7 @@ const getNearbyByType = async (req, res, next) => {
         FROM course c
         CROSS JOIN user_location
         WHERE c.status = 'APPROVED'
-        ORDER BY distance ASC
+        ORDER BY distance ASC ,average_rating DESC ,review_count DESC
         LIMIT ? OFFSET ?
       `;
     }
